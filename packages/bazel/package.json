@@ -10,6 +10,12 @@
     "xi18n": "./src/ngc-wrapped/extract_i18n.js",
     "modify_tsconfig": "./src/modify_tsconfig.js"
   },
+  "bazelWorkspaces": {
+    "angular": {
+      "version": "0.0.0-PLACEHOLDER",
+      "rootPath": "."
+    }
+  },
   "typings": "./src/ngc-wrapped/index.d.ts",
   "dependencies": {
     "@angular-devkit/architect": "^0.10.6",
