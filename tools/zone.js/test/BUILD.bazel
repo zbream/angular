@@ -8,8 +8,8 @@ ts_library(
         "//tools/zone.js/lib",
         "@npm//shelljs",
         "@npm//systemjs",
-        # will report error if I add this line
-        #"@npm//@types/systemjs",
+        "@npm//@types/shelljs",
+        "@npm//@types/systemjs",
         "@npm//rxjs",
     ],
 )

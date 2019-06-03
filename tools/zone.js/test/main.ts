@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+/// <reference types="systemjs" />
+
 declare const __karma__: {
   loaded: Function,
   start: Function,
