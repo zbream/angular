@@ -13,8 +13,11 @@ ts_library(
             "test-util.ts",
             "wtf_mock.ts",
             "node-env-setup.ts",
+            "node_entry_point_common.ts",
             "node_entry_point.ts",
+            "node_entry_point_no_patch_clock.ts",
             "test-env-setup-jasmine.ts",
+            "test-env-setup-jasmine-no-patch-clock.ts",
         ],
     ),
     deps = [
@@ -28,7 +31,7 @@ ts_library(
 )
 
 jasmine_node_test(
-    name = "test",
+    name = "test_node",
     bootstrap = [
         "angular/packages/zone.js/test/node_entry_point.js",
     ],
@@ -37,10 +40,10 @@ jasmine_node_test(
     ],
 )
 
-ts_web_test_suite(
-    name = "test_web",
-    static_files = [
-        ":static_assets/test.html",
+jasmine_node_test(
+    name = "test_node_no_jasmine_clock",
+    bootstrap = [
+        "angular/packages/zone.js/test/node_entry_point_no_patch_clock.js",
     ],
     deps = [
         ":test_node_lib",
