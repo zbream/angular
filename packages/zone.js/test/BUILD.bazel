@@ -18,7 +18,7 @@ ts_library(
         ],
     ),
     deps = [
-        "//tools/zone.js/lib",
+        "//packages/zone.js/lib",
         "@npm//shelljs",
         "@npm//systemjs",
         "@npm//@types/shelljs",
@@ -30,7 +30,7 @@ ts_library(
 jasmine_node_test(
     name = "test",
     bootstrap = [
-        "angular/tools/zone.js/test/node_entry_point.js",
+        "angular/packages/zone.js/test/node_entry_point.js",
     ],
     deps = [
         ":test_node_lib",
