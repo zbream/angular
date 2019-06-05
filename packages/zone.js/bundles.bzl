@@ -1,3 +1,8 @@
+"""
+Describe all the output bundles in the zone.js npm package
+by mapping the bundle name to the source location.
+"""
+
 _DIR = "packages/zone.js/lib/"
 
 ES5_GLOBAL_BUNDLES = {
