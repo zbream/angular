@@ -47,6 +47,24 @@ ts_library(
     ],
 )
 
+ts_library(
+    name = "error_spec",
+    testonly = True,
+    srcs = glob([
+        "common/Error.spec.ts",
+        "test-util.ts",
+        "node_error_entry_point.ts",
+        "node_error_disable_policy_entry_point.ts",
+        "node_error_lazy_policy_entry_point.ts",
+        "test_fake_polyfill.ts",
+        "wtf_mock.ts",
+        "test-env-setup-jasmine.ts",
+    ]),
+    deps = [
+        "//packages/zone.js/lib",
+    ],
+)
+
 jasmine_node_test(
     name = "test_node",
     bootstrap = [
@@ -74,5 +92,25 @@ jasmine_node_test(
     ],
     deps = [
         ":bluebird_spec",
+    ],
+)
+
+jasmine_node_test(
+    name = "test_node_error_disable_policy",
+    bootstrap = [
+        "angular/packages/zone.js/test/node_error_disable_policy_entry_point.js",
+    ],
+    deps = [
+        ":error_spec",
+    ],
+)
+
+jasmine_node_test(
+    name = "test_node_error_lazy_policy",
+    bootstrap = [
+        "angular/packages/zone.js/test/node_error_lazy_policy_entry_point.js",
+    ],
+    deps = [
+        ":error_spec",
     ],
 )
