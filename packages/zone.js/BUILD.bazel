@@ -30,4 +30,5 @@ npm_package(
         "//packages/zone.js/dist:" + b + "-dist"
         for b in ES5_GLOBAL_BUNDLES
     ] + ["//packages/zone.js/dist:zone_d_ts"],
+    visibility = ["//packages/zone.js/test:__pkg__"],
 )

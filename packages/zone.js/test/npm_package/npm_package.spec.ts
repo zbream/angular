@@ -5,24 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as path from 'path';
 import * as shx from 'shelljs';
 
-/**
- * Utility functions that allows me to create fs paths
- *   p`${foo}/some/${{bar}}/path` rather than path.join(foo, 'some',
- */
-function p(templateStringArray: TemplateStringsArray) {
-  const segments = [];
-  for (const entry of templateStringArray) {
-    segments.push(...entry.split('/').filter(s => s !== ''));
-  }
-  return path.join(...segments);
-}
-
 describe('Zone.js npm_package', () => {
-  beforeEach(() => { shx.cd('./npm_package'); });
-  afterEach(() => { shx.cd('../'); });
+  beforeEach(() => { shx.cd('packages/zone.js/npm_package'); });
   describe('misc root files', () => {
     describe('README.md', () => {
       it('should have a README.md file with basic info',
