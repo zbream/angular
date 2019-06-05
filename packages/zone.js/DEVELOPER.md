@@ -82,5 +82,5 @@ Releasing
 ```
 $ VERSION=<version>
 $ git tag 'zone.js-$VERSION'
-$ yarn bazel --output_base=$(mktemp -d) run //tools/zone.js:npm_package.pack --workspace_status_command="echo BUILD_SCM_VERSION $VERSION"
+$ yarn bazel --output_base=$(mktemp -d) run //packages/zone.js:npm_package.pack --workspace_status_command="echo BUILD_SCM_VERSION $VERSION"
 ```

@@ -114,3 +114,21 @@ jasmine_node_test(
         ":error_spec",
     ],
 )
+
+ts_library(
+    name = "npm_package_spec_lib",
+    testonly = True,
+    srcs = ["npm_package/npm_package.spec.ts"],
+    deps = [
+        "@npm//@types",
+    ],
+)
+
+jasmine_node_test(
+    name = "test_npm_package",
+    srcs = [":npm_package_spec_lib"],
+    data = [
+        "//packages/zone.js:npm_package",
+        "@npm//shelljs",
+    ],
+)
