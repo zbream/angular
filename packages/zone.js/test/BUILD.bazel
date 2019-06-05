@@ -16,6 +16,7 @@ ts_library(
             "node_entry_point_common.ts",
             "node_entry_point.ts",
             "node_entry_point_no_patch_clock.ts",
+            "node_bluebird_entry_point.ts",
             "test-env-setup-jasmine.ts",
             "test-env-setup-jasmine-no-patch-clock.ts",
         ],
@@ -27,6 +28,22 @@ ts_library(
         "@npm//@types/shelljs",
         "@npm//@types/systemjs",
         "@npm//rxjs",
+    ],
+)
+
+ts_library(
+    name = "bluebird_spec",
+    testonly = True,
+    srcs = glob([
+        "extra/bluebird.spec.ts",
+        "node_bluebird_entry_point.ts",
+        "test_fake_polyfill.ts",
+        "wtf_mock.ts",
+        "test-env-setup-jasmine.ts",
+    ]),
+    deps = [
+        "//packages/zone.js/lib",
+        "@npm//bluebird",
     ],
 )
 
@@ -47,5 +64,15 @@ jasmine_node_test(
     ],
     deps = [
         ":test_node_lib",
+    ],
+)
+
+jasmine_node_test(
+    name = "test_node_bluebird",
+    bootstrap = [
+        "angular/packages/zone.js/test/node_bluebird_entry_point.js",
+    ],
+    deps = [
+        ":bluebird_spec",
     ],
 )
