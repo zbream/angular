@@ -7,6 +7,8 @@
  */
 
 // Must be loaded before zone loads, so that zone can detect WTF.
+require('@bazel/jasmine').boot();
+import './node-env-setup';
 import './wtf_mock';
 import './test_fake_polyfill';
 
@@ -17,6 +19,7 @@ if (typeof global !== 'undefined' &&
 }
 
 // Setup tests for Zone without microtask support
+import '../lib/node/rollup-main';
 import '../lib/testing/zone-testing';
 import '../lib/zone-spec/task-tracking';
 import '../lib/zone-spec/wtf';
@@ -28,5 +31,5 @@ import '../lib/jasmine/jasmine';
 import './test-env-setup-jasmine';
 
 // List all tests here:
-import './common_tests';
-import './node_tests';
+// import './common_tests';
+// import './node_tests';
