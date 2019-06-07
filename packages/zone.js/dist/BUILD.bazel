@@ -100,8 +100,47 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "cp $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0] + "-rollup.es5umd.js $(@D)/" + b[0] + ".js",
             "mv $(@D)/" + b[0] + "-rollup.min.es5umd.js $(@D)/" + b[0] + ".min.js",
+        ]),
+    )
+    for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
+]
+
+# Extract and rename each es5 bundle to a .js and .min.js in the dist/ dir
+[
+    genrule(
+        name = b[0] + "-dist-dev-test",
+        srcs = [
+            b[0] + ".es5",
+        ],
+        outs = [
+            b[0] + ".dev.test.js",
+        ],
+        cmd = " && ".join([
+            "mkdir -p $(@D)",
+            "cp $(SRCS) $(@D)/",
+            "mv $(@D)/" + b[0] + "-rollup.es5umd.js $(@D)/" + b[0] + ".dev.test.js",
+        ]),
+    )
+    for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
+]
+
+# Extract and rename each es5 bundle to a .js and .min.js in the dist/ dir
+[
+    genrule(
+        name = b[0] + "-dist-test",
+        srcs = [
+            b[0] + ".es5.min",
+        ],
+        outs = [
+            b[0] + ".test.min.js",
+        ],
+        cmd = " && ".join([
+            "mkdir -p $(@D)",
+            "cp $(SRCS) $(@D)/",
+            "mv $(@D)/" + b[0] + "-rollup.min.es5umd.js $(@D)/" + b[0] + ".test.min.js",
         ]),
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -121,6 +160,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "cp $(SRCS) $(@D)/",
             "mv $(@D)/" + b + "-rollup.umd.js $(@D)/" + b + ".js",
             "mv $(@D)/" + b + "-rollup.min.umd.js $(@D)/" + b + ".min.js",
         ]),

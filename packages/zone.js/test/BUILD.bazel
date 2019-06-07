@@ -1,5 +1,5 @@
 load("//tools:defaults.bzl", "jasmine_node_test", "ts_library")
-load(":zone_web_test.bzl", "karma_web_test", "karma_web_test_suite")
+load("@npm_bazel_karma//:index.bzl", "karma_web_test", "karma_web_test_suite")
 
 ts_library(
     name = "test_node_lib",
@@ -24,11 +24,11 @@ ts_library(
     ),
     deps = [
         "//packages/zone.js/lib",
-        "@npm//shelljs",
-        "@npm//systemjs",
         "@npm//@types/shelljs",
         "@npm//@types/systemjs",
         "@npm//rxjs",
+        "@npm//shelljs",
+        "@npm//systemjs",
     ],
 )
 
@@ -152,21 +152,23 @@ ts_library(
             "wtf_mock.ts",
             "browser-env-setup.ts",
             "test-env-setup-jasmine.ts",
-            "main.ts",
         ],
     ),
     deps = [
         "//packages/zone.js/lib",
-        "@npm//shelljs",
-        "@npm//systemjs",
         "@npm//@types/shelljs",
         "@npm//@types/systemjs",
         "@npm//rxjs",
+        "@npm//shelljs",
+        "@npm//systemjs",
     ],
 )
 
-karma_web_test(
+karma_web_test_suite(
     name = "karma_jasmine_test",
+    bootstrap = [
+        "//packages/zone.js/dist:zone-testing-bundle-dist-dev-test",
+    ],
     deps = [
         ":test_browser_lib",
     ],
