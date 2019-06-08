@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+/// <reference types="jasmine"/>
+
 'use strict';
 (function(global) {
   const log: string[] = [];

@@ -3,6 +3,12 @@ load("@build_bazel_rules_nodejs//:defs.bzl", "rollup_bundle")
 load("@npm_bazel_karma//:index.bzl", "karma_web_test", "karma_web_test_suite")
 load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
 
+exports_files([
+    "assets/sample.json",
+    "assets/worker.js",
+    "assets/import.html",
+])
+
 ts_library(
     name = "test_node_lib",
     testonly = True,
@@ -148,16 +154,12 @@ ts_library(
             "extra/cordova.spec.ts",
             "mocha-patch.spec.ts",
             "jasmine-patch.spec.ts",
-            "test_fake_polyfill.ts",
             "common_tests.ts",
             "test-util.ts",
-            "wtf_mock.ts",
-            "browser-env-setup.ts",
             "browser_entry_point.ts",
             "test-env-setup-jasmine.ts",
         ],
     ),
-    visibility = ["//packages/zone.js:__subpackages__"],
     deps = [
         "//packages/zone.js/lib",
         "@npm//@types/shelljs",
@@ -168,6 +170,36 @@ ts_library(
     ],
 )
 
+ts_library(
+    name = "browser_env_setup",
+    srcs = glob([
+        "wtf_mock.ts",
+        "browser-env-setup.ts",
+        "browser_symbol_setup.ts",
+        "test_fake_polyfill.ts",
+    ]),
+    deps = [
+        "@npm//@types/jasmine",
+        "@npm//@types/node",
+    ],
+)
+
+rollup_bundle(
+    name = "browser_test_env_setup_rollup",
+    testonly = True,
+    entry_point = "packages/zone.js/test/browser-env-setup",
+    deps = [
+        ":browser_env_setup",
+    ],
+)
+
+filegroup(
+    name = "browser_test_env_setup_rollup.es5",
+    testonly = True,
+    srcs = [":browser_test_env_setup_rollup"],
+    output_group = "umd",
+)
+
 rollup_bundle(
     name = "browser_test_rollup",
     testonly = True,
@@ -175,7 +207,6 @@ rollup_bundle(
     globals = {
         "electron": "electron",
     },
-    license_banner = "//packages:license-banner.txt",
     deps = [
         ":test_browser_lib",
     ],
@@ -186,6 +217,38 @@ filegroup(
     testonly = True,
     srcs = [":browser_test_rollup"],
     output_group = "umd",
+)
+
+genrule(
+    name = "browser_test_trim_map",
+    testonly = True,
+    srcs = [
+        ":browser_test_rollup.es5",
+    ],
+    outs = [
+        "browser_test_rollup_trim_map.js",
+    ],
+    cmd = " && ".join([
+        "cp $(SRCS) $(@D)/",
+        "rm $(@D)/*.js.map",
+        "mv $(@D)/*.js $@",
+    ]),
+)
+
+genrule(
+    name = "browser_test_env_setup_trim_map",
+    testonly = True,
+    srcs = [
+        ":browser_test_env_setup_rollup.es5",
+    ],
+    outs = [
+        "browser_test_env_setup_rollup_trim_map.js",
+    ],
+    cmd = " && ".join([
+        "cp $(SRCS) $(@D)/",
+        "rm $(@D)/*.js.map",
+        "mv $(@D)/*.js $@",
+    ]),
 )
 
 nodejs_binary(
@@ -203,10 +266,21 @@ karma_web_test_suite(
         "fake_entry.js",
     ],
     bootstrap = [
+        ":browser_test_env_setup_trim_map",
         "//packages/zone.js/dist:zone-testing-bundle-dist-dev-test",
-        ":browser_test_rollup.es5",
+        "//packages/zone.js/dist:task-tracking-dist-dev-test",
+        "//packages/zone.js/dist:wtf-dist-dev-test",
+        "//packages/zone.js/dist:webapis-notification-dist-dev-test",
+        "//packages/zone.js/dist:webapis-media-query-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-canvas-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-fetch-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-resize-observer-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-user-media-dist-dev-test",
+        ":browser_test_trim_map",
     ],
-    deps = [
-        ":ws-test-server",
+    static_files = [
+        ":assets/sample.json",
+        ":assets/worker.js",
+        ":assets/import.html",
     ],
 )

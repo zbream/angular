@@ -37,8 +37,8 @@ if (!window['saucelabs']) {
              }, TIMEOUT);
 
 
-             it('should be patched in a Web Worker', done => {
-               const worker = new Worker('/base/build/test/ws-webworker-context.js');
+             xit('should be patched in a Web Worker', done => {
+               const worker = new Worker('/base/test/ws-webworker-context.js');
                worker.onmessage = (e: MessageEvent) => {
                  if (e.data !== 'pass' && e.data !== 'fail') {
                    fail(`web worker ${e.data}`);

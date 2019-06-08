@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+/// <reference types="node"/>
+
 'use strict';
 (function(global: any) {
   // add custom properties to Native Error
@@ -45,6 +47,7 @@
         if (!this.events) {
           this.events = {};
         }
+        const Zone = global.Zone;
         this.events.eventName = {zone: Zone.current, callback: callback};
       }
     },

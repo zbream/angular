@@ -1,3 +1,5 @@
-(window as any).global = window;
-// Change default symbol prefix for testing to ensure no hard-coded references.
-(window as any)['__Zone_symbol_prefix'] = '_test__';
+/// <reference types="node"/>
+
+import './browser_symbol_setup';
+import './test_fake_polyfill';
+import './wtf_mock';

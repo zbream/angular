@@ -7,6 +7,8 @@
  */
 
 import {ifEnvSupports, ifEnvSupportsWithDone, supportPatchXHROnProperty, zoneSymbol} from '../test-util';
+declare const global: any;
+const wtfMock = global.wtfMock;
 
 describe('XMLHttpRequest', function() {
   let testZone: Zone;

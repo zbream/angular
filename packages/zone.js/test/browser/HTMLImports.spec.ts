@@ -65,7 +65,7 @@ describe('HTML Imports', ifEnvSupports(supportsImports, function() {
                testZone.run(function() {
                  link = document.createElement('link');
                  link.rel = 'import';
-                 link.href = '/base/test/assets/import.html';
+                 link.href = '/base/angular/packages/zone.js/test/assets/import.html';
                  link.onload = function() {
                    expect(Zone.current).toBe(testZone);
                    document.head.removeChild(link);

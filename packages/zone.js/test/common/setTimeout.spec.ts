@@ -8,6 +8,7 @@
 
 import {isNode, zoneSymbol} from '../../lib/common/utils';
 declare const global: any;
+const wtfMock = global.wtfMock;
 
 describe('setTimeout', function() {
   it('should intercept setTimeout', function(done) {
