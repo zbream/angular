@@ -1,5 +1,7 @@
 load("//tools:defaults.bzl", "jasmine_node_test", "ts_library")
+load("@build_bazel_rules_nodejs//:defs.bzl", "rollup_bundle")
 load("@npm_bazel_karma//:index.bzl", "karma_web_test", "karma_web_test_suite")
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
 
 ts_library(
     name = "test_node_lib",
@@ -151,9 +153,11 @@ ts_library(
             "test-util.ts",
             "wtf_mock.ts",
             "browser-env-setup.ts",
+            "browser_entry_point.ts",
             "test-env-setup-jasmine.ts",
         ],
     ),
+    visibility = ["//packages/zone.js:__subpackages__"],
     deps = [
         "//packages/zone.js/lib",
         "@npm//@types/shelljs",
@@ -164,12 +168,45 @@ ts_library(
     ],
 )
 
-karma_web_test_suite(
-    name = "karma_jasmine_test",
-    bootstrap = [
-        "//packages/zone.js/dist:zone-testing-bundle-dist-dev-test",
-    ],
+rollup_bundle(
+    name = "browser_test_rollup",
+    testonly = True,
+    entry_point = "packages/zone.js/test/browser_entry_point",
+    globals = {
+        "electron": "electron",
+    },
+    license_banner = "//packages:license-banner.txt",
     deps = [
         ":test_browser_lib",
+    ],
+)
+
+filegroup(
+    name = "browser_test_rollup.es5",
+    testonly = True,
+    srcs = [":browser_test_rollup"],
+    output_group = "umd",
+)
+
+nodejs_binary(
+    name = "ws-test-server",
+    data = [
+        "ws-server.js",
+        "@npm//nodejs-websocket",
+    ],
+    entry_point = "angular/packages/zone.js/test/ws-server.js",
+)
+
+karma_web_test_suite(
+    name = "karma_jasmine_test",
+    srcs = [
+        "fake_entry.js",
+    ],
+    bootstrap = [
+        "//packages/zone.js/dist:zone-testing-bundle-dist-dev-test",
+        ":browser_test_rollup.es5",
+    ],
+    deps = [
+        ":ws-test-server",
     ],
 )
