@@ -15,12 +15,12 @@ genrule(
     name = "zone_d_ts",
     srcs = ["//packages/zone.js/lib"],
     outs = ["zone.js.d.ts"],
-    cmd = "rsync -ul $(SRCS) $(@D) && mv $(@D)/zone.d.ts $(@D)/zone.js.d.ts",
+    cmd = "rsync -ul  $(SRCS) $(@D) && mv $(@D)/zone.d.ts $(@D)/zone.js.d.ts",
 )
 
 [
     rollup_bundle(
-        name = b[0] + "-rollup",
+        name = b[0].replace("-", "_") + "_rollup",
         entry_point = b[1],
         globals = {
             "electron": "electron",
@@ -35,7 +35,7 @@ genrule(
 
 [
     rollup_bundle(
-        name = b[0] + "-rollup",
+        name = b[0].replace("-", "_") + "_rollup",
         entry_point = b[1],
         global_name = "Zone",
         license_banner = "//packages:license-banner.txt",
@@ -50,7 +50,7 @@ genrule(
 [
     filegroup(
         name = b[0] + ".es5",
-        srcs = [":" + b[0] + "-rollup"],
+        srcs = [":" + b[0].replace("-", "_") + "_rollup"],
         output_group = "es5_umd",
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -60,7 +60,7 @@ genrule(
 [
     filegroup(
         name = b[0] + ".es5.min",
-        srcs = [":" + b[0] + "-rollup"],
+        srcs = [":" + b[0].replace("-", "_") + "_rollup"],
         output_group = "es5_umd_min",
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -69,21 +69,21 @@ genrule(
 # the es2015 filegroups
 [
     filegroup(
-        name = b + ".umd",
-        srcs = [":" + b + "-rollup"],
+        name = b[0] + ".umd",
+        srcs = [":" + b[0].replace("-", "_") + "_rollup"],
         output_group = "umd",
     )
-    for b in ES2015_BUNDLES
+    for b in ES2015_BUNDLES.items()
 ]
 
 # the es2015.min filegroups
 [
     filegroup(
-        name = b + ".umd.min",
-        srcs = [":" + b + "-rollup"],
+        name = b[0] + ".umd.min",
+        srcs = [":" + b[0].replace("-", "_") + "_rollup"],
         output_group = "umd_min",
     )
-    for b in ES2015_BUNDLES
+    for b in ES2015_BUNDLES.items()
 ]
 
 # Extract and rename each es5 bundle to a .js and .min.js in the dist/ dir
@@ -100,9 +100,9 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "cp $(SRCS) $(@D)/",
-            "mv $(@D)/" + b[0] + "-rollup.es5umd.js $(@D)/" + b[0] + ".js",
-            "mv $(@D)/" + b[0] + "-rollup.min.es5umd.js $(@D)/" + b[0] + ".min.js",
+            "rsync -ul $(SRCS) $(@D)/",
+            "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".js",
+            "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".min.js",
         ]),
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -120,8 +120,8 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "cp $(SRCS) $(@D)/",
-            "mv $(@D)/" + b[0] + "-rollup.es5umd.js $(@D)/" + b[0] + ".dev.test.js",
+            "rsync -ul $(SRCS) $(@D)/",
+            "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".dev.test.js",
         ]),
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -139,8 +139,8 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "cp $(SRCS) $(@D)/",
-            "mv $(@D)/" + b[0] + "-rollup.min.es5umd.js $(@D)/" + b[0] + ".test.min.js",
+            "rsync -ul  $(SRCS) $(@D)/",
+            "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".test.min.js",
         ]),
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
@@ -160,9 +160,9 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "cp $(SRCS) $(@D)/",
-            "mv $(@D)/" + b + "-rollup.umd.js $(@D)/" + b + ".js",
-            "mv $(@D)/" + b + "-rollup.min.umd.js $(@D)/" + b + ".min.js",
+            "rsync -ul $(SRCS) $(@D)/",
+            "mv $(@D)/" + b.replace("-", "_") + "_rollup.umd.js $(@D)/" + b + ".js",
+            "mv $(@D)/" + b.replace("-", "_") + "_rollup.min.umd.js $(@D)/" + b + ".min.js",
         ]),
     )
     for b in ES2015_BUNDLES

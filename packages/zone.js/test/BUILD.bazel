@@ -273,7 +273,7 @@ genrule(
         "browser_test_rollup_trim_map.js",
     ],
     cmd = " && ".join([
-        "cp $(SRCS) $(@D)/",
+        "rsync -ul $(SRCS) $(@D)/",
         "rm $(@D)/*.js.map",
         "mv $(@D)/*.js $@",
     ]),
@@ -289,7 +289,7 @@ genrule(
         "browser_test_env_setup_rollup_trim_map.js",
     ],
     cmd = " && ".join([
-        "cp $(SRCS) $(@D)/",
+        "rsync -ul $(SRCS) $(@D)/",
         "rm $(@D)/*.js.map",
         "mv $(@D)/*.js $@",
     ]),
