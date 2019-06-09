@@ -278,9 +278,53 @@ karma_web_test_suite(
         "//packages/zone.js/dist:zone-patch-user-media-dist-dev-test",
         ":browser_test_trim_map",
     ],
+    config_file = "//:karma-js.conf.js",
+    configuration_env_vars = ["KARMA_WEB_TEST_MODE"],
+    data = [
+        "//:browser-providers.conf.js",
+        "//tools:jasmine-seed-generator.js",
+    ],
     static_files = [
         ":assets/sample.json",
         ":assets/worker.js",
         ":assets/import.html",
+    ],
+    runtime_deps = [
+        "@npm//karma-browserstack-launcher",
+    ],
+)
+
+karma_web_test_suite(
+    name = "karma_jasmine_test_ci",
+    srcs = [
+        "fake_entry.js",
+    ],
+    bootstrap = [
+        ":saucelabs.js",
+        ":browser_test_env_setup_trim_map",
+        "//packages/zone.js/dist:zone-testing-bundle-dist-dev-test",
+        "//packages/zone.js/dist:task-tracking-dist-dev-test",
+        "//packages/zone.js/dist:wtf-dist-dev-test",
+        "//packages/zone.js/dist:webapis-notification-dist-dev-test",
+        "//packages/zone.js/dist:webapis-media-query-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-canvas-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-fetch-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-resize-observer-dist-dev-test",
+        "//packages/zone.js/dist:zone-patch-user-media-dist-dev-test",
+        ":browser_test_trim_map",
+    ],
+    config_file = "//:karma-js.conf.js",
+    configuration_env_vars = ["KARMA_WEB_TEST_MODE"],
+    data = [
+        "//:browser-providers.conf.js",
+        "//tools:jasmine-seed-generator.js",
+    ],
+    static_files = [
+        ":assets/sample.json",
+        ":assets/worker.js",
+        ":assets/import.html",
+    ],
+    runtime_deps = [
+        "@npm//karma-browserstack-launcher",
     ],
 )

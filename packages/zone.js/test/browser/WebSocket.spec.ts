@@ -36,6 +36,11 @@ if (!window['saucelabs']) {
                socket.close();
              }, TIMEOUT);
 
+             afterAll(function() {
+               socket = new WebSocket(TEST_SERVER_URL);
+               socket.send('close');
+             });
+
 
              xit('should be patched in a Web Worker', done => {
                const worker = new Worker('/base/test/ws-webworker-context.js');
