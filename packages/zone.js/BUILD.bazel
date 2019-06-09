@@ -17,6 +17,7 @@ npm_package(
         "README.md",
         "package.json",
     ],
+    visibility = ["//packages/zone.js/test:__pkg__"],
     deps = [
         "//packages/zone.js/dist:zone_externs",
         "//packages/zone.js/lib",
@@ -30,5 +31,4 @@ npm_package(
         "//packages/zone.js/dist:" + b + "-dist"
         for b in ES5_GLOBAL_BUNDLES
     ] + ["//packages/zone.js/dist:zone_d_ts"],
-    visibility = ["//packages/zone.js/test:__pkg__"],
 )
