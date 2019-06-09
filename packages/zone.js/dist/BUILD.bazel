@@ -15,7 +15,7 @@ genrule(
     name = "zone_d_ts",
     srcs = ["//packages/zone.js/lib"],
     outs = ["zone.js.d.ts"],
-    cmd = "cp -rf  $(SRCS) $(@D) && mv $(@D)/zone.d.ts $(@D)/zone.js.d.ts",
+    cmd = "find $(SRCS) -name \"zone.d.ts\" -exec mv {} $(@D)/zone.js.d.ts \;",
 )
 
 [
