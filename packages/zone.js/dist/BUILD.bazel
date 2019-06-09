@@ -100,6 +100,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "rm -rf $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js",
             "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".js",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".min.js",
@@ -120,6 +121,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "rm -rf $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js",
             "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".dev.test.js",
         ]),
@@ -139,6 +141,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "rm -rf $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js",
             "cp -rf  $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".test.min.js",
         ]),
@@ -160,6 +163,8 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
+            "rm -rf $(@D)/" + b[0].replace("-", "_") + "_rollup.min.umd.js",
+            "rm -rf $(@D)/" + b[0].replace("-", "_") + "_rollup.umd.js",
             "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b.replace("-", "_") + "_rollup.umd.js $(@D)/" + b + ".js",
             "mv $(@D)/" + b.replace("-", "_") + "_rollup.min.umd.js $(@D)/" + b + ".min.js",
