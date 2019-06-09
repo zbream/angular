@@ -15,7 +15,7 @@ genrule(
     name = "zone_d_ts",
     srcs = ["//packages/zone.js/lib"],
     outs = ["zone.js.d.ts"],
-    cmd = "rsync -ul  $(SRCS) $(@D) && mv $(@D)/zone.d.ts $(@D)/zone.js.d.ts",
+    cmd = "cp -rf  $(SRCS) $(@D) && mv $(@D)/zone.d.ts $(@D)/zone.js.d.ts",
 )
 
 [
@@ -100,7 +100,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "rsync -ul $(SRCS) $(@D)/",
+            "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".js",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".min.js",
         ]),
@@ -120,7 +120,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "rsync -ul $(SRCS) $(@D)/",
+            "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.es5umd.js $(@D)/" + b[0] + ".dev.test.js",
         ]),
     )
@@ -139,7 +139,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "rsync -ul  $(SRCS) $(@D)/",
+            "cp -rf  $(SRCS) $(@D)/",
             "mv $(@D)/" + b[0].replace("-", "_") + "_rollup.min.es5umd.js $(@D)/" + b[0] + ".test.min.js",
         ]),
     )
@@ -160,7 +160,7 @@ genrule(
         ],
         cmd = " && ".join([
             "mkdir -p $(@D)",
-            "rsync -ul $(SRCS) $(@D)/",
+            "cp -rf $(SRCS) $(@D)/",
             "mv $(@D)/" + b.replace("-", "_") + "_rollup.umd.js $(@D)/" + b + ".js",
             "mv $(@D)/" + b.replace("-", "_") + "_rollup.min.umd.js $(@D)/" + b + ".min.js",
         ]),
