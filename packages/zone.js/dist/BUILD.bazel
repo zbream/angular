@@ -125,6 +125,23 @@ genrule(
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
 ]
 
+[
+    genrule(
+        name = b + "-dist-dev-test",
+        srcs = [
+            b + ".umd",
+        ],
+        outs = [
+            b + ".dev.test.js",
+        ],
+        cmd = " && ".join([
+            "mkdir -p $(@D)",
+            "cp $(@D)/" + b.replace("-", "_") + "_rollup.umd.js $(@D)/" + b + ".dev.test.js",
+        ]),
+    )
+    for b in ES2015_BUNDLES
+]
+
 # Extract and rename each es5 bundle to a .js and .min.js in the dist/ dir
 [
     genrule(
@@ -141,6 +158,24 @@ genrule(
         ]),
     )
     for b in ES5_BUNDLES.items() + ES5_GLOBAL_BUNDLES.items()
+]
+
+# Extract and rename each es5 bundle to a .js and .min.js in the dist/ dir
+[
+    genrule(
+        name = b + "-dist-test",
+        srcs = [
+            b + ".min.umd",
+        ],
+        outs = [
+            b + ".test.min.js",
+        ],
+        cmd = " && ".join([
+            "mkdir -p $(@D)",
+            "cp $(@D)/" + b.replace("-", "_") + "_rollup.min.umd.js $(@D)/" + b + ".test.min.js",
+        ]),
+    )
+    for b in ES2015_BUNDLES
 ]
 
 # Extract and rename each es2015 bundle to a .js and .min.js in the dist/ dir
