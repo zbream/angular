@@ -5,10 +5,13 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import * as path from 'path';
 import * as shx from 'shelljs';
 
 describe('Zone.js npm_package', () => {
-  beforeEach(() => { shx.cd('packages/zone.js/npm_package'); });
+  beforeEach(
+      () => {shx.cd(
+          path.dirname(require.resolve('angular/packages/zone.js/npm_package/package.json')))});
   describe('misc root files', () => {
     describe('README.md', () => {
       it('should have a README.md file with basic info',
