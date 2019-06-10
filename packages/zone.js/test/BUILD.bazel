@@ -273,8 +273,7 @@ genrule(
         "browser_test_rollup_trim_map.js",
     ],
     cmd = " && ".join([
-        "rm $(@D)/*.js.map",
-        "mv $(@D)/*.js $@",
+        "cp $(@D)/browser_test_rollup.umd.js $@",
     ]),
 )
 
@@ -288,8 +287,7 @@ genrule(
         "browser_test_env_setup_rollup_trim_map.js",
     ],
     cmd = " && ".join([
-        "rm $(@D)/*.js.map",
-        "mv $(@D)/*.js $@",
+        "cp $(@D)/browser_test_env_setup_rollup.umd.js $@",
     ]),
 )
 
